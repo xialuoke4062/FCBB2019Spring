@@ -8,7 +8,7 @@ registerDoParallel(cl)
 
 #setwd("C:/Users/Dan/Dropbox (CahanLab)/Foundation_FinalProject")
 setwd("~/Dropbox (CahanLab)/Foundation_FinalProject")
-myTable = read.csv("updated_encoding_BLCA.csv")
+myTable = read.csv("updated_encoding_BLCA.csv") # change this to appropriate file name 
 rownames(myTable) = myTable$X
 myTable$X = NULL
 
@@ -25,16 +25,17 @@ permutateNull_sigParallel <- function(tempMatrix) {
     }
 
     parallelTest = as.vector(parallelTest[1, ])
-    returnNum = as.numeric(quantile(parallelTest, probs = 0.95))
+    #returnNum = as.numeric(quantile(parallelTest, probs = 0.95))
     #return 
-    returnNum
+    parallelTest
+    #returnNum
 }
 
 
 binomial_conversion <- function(myTable) {
     driverGenes = rownames(myTable)
     
-    bigSummaryDf = data.frame(gene1 = NULL, gene2 = NULL, co_occurance = NULL, mutual_exclusion = NULL, co_cut = NULL)
+    bigSummaryDf = data.frame(gene1 = NULL, gene2 = NULL, co_occurance = NULL, mutual_exclusion = NULL, co_cut = NULL, pval = NULL)
     
     for(index1 in 1:length(driverGenes)) {
         for(index2 in 1:length(driverGenes)) {
@@ -50,9 +51,13 @@ binomial_conversion <- function(myTable) {
                 c_occurance = sum(tempMatrix[1, ] == tempMatrix[2, ])
                 m_exclusive = ncol(tempMatrix) - c_occurance
 
-                sigCutoff = permutateNull_sigParallel(tempMatrix)
-                
-                fillerDf = data.frame(gene1 = gene1, gene2 = gene2, co_occurance = c_occurance, mutual_exclusion = m_exclusive, co_cut = sigCutoff)
+                #sigCutoff = permutateNull_sigParallel(tempMatrix)
+                permuteSeq = permutateNull_sigParallel(tempMatrix)
+                sigCutoff = as.numeric(quantile(permuteSeq, probs = 0.95))
+
+                pval = sum(permuteSeq >= c_occurance) / length(permuteSeq)
+
+                fillerDf = data.frame(gene1 = gene1, gene2 = gene2, co_occurance = c_occurance, mutual_exclusion = m_exclusive, co_cut = sigCutoff, pval = pval)
                 bigSummaryDf = rbind(bigSummaryDf, fillerDf)
                 
                 print(fillerDf)
