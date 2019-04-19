@@ -69,9 +69,7 @@ binomial_conversion <- function(myTable) {
                 print(fillerDf)
 
                 bigSummaryDf = rbind(bigSummaryDf, fillerDf)
-                
             }
-            
         }
     }
 
