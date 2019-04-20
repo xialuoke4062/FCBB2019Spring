@@ -1,0 +1,6 @@
+"","gene1","gene2","co_occurance","mutual_exclusion","co_cut","pval"
+"1","APOB","SPTA1",55,141,34,0
+"2","APOB","TP53",63,205,51,0
+"3","DMD","TP53",48,216,42,0.004
+"4","PTPRD","TP53",51,208,42,0
+"5","SPTA1","TP53",81,202,65,0

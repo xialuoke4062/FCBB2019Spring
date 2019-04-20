@@ -38,7 +38,9 @@ permutateNull_sigParallel <- function(tempMatrix) {
    #returnNum
 }
 
-cancerList = c("LGG", "GBM", "BRCA", "LIHC", "LAML", "SKCM", "SARC", "PAAD", "LUSC", "LUAD", "KIRP", "KIRC", "CESC","STAD", "UCEC", "BLCA")
+#cancerList = c("LGG", "GBM", "BRCA", "LIHC", "LAML", "SKCM", "SARC", "PAAD", "LUSC", "LUAD", "KIRP", "KIRC", "CESC","STAD", "UCEC", "BLCA") # first round finished up to LAML
+
+cancerList = c("KIRP", "KIRC", "CESC", "STAD", "SKCM", "SARC", "PAAD", "LUSC", "LUAD", "UCEC") 
 
 for(myCancer in cancerList) {
 
@@ -73,9 +75,16 @@ for(myCancer in cancerList) {
                 c_occurance = sum(tempMatrix[1, ] == tempMatrix[2, ])
                 m_exclusive = ncol(tempMatrix) - c_occurance
                 
-                if(c_occurance < 10) {
+                if(myCancer == "KIRC" | myCancer == "KIRP" | myCancer == "CESC") {
+                    minPairs = 10
+                } else {
+                    minPairs = 40
+                }
+                if(c_occurance <= minPairs) {
                     next
                 }
+
+                print(paste0("start ", myCancer))
                 
                 permuteSeq = permutateNull_sigParallel(OGtempMatrix)
                 sigCutoff = as.numeric(quantile(permuteSeq, probs = 0.95))
@@ -83,11 +92,8 @@ for(myCancer in cancerList) {
                 distributionList[[paste0(gene1, "_", gene2)]] = permuteSeq
                 
                 pval = sum(permuteSeq >= c_occurance) / length(permuteSeq)
-                
-                print(paste0(sum(permuteSeq >= c_occurance), " numbers of occurances"))
-                print(length(permuteSeq))
+
                 fillerDf = data.frame(gene1 = gene1, gene2 = gene2, co_occurance = c_occurance, mutual_exclusion = m_exclusive, co_cut = sigCutoff, pval = pval)
-                print(fillerDf)
                 
                 bigSummaryDf = rbind(bigSummaryDf, fillerDf)
 
