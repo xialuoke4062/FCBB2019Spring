@@ -1,1 +1,3 @@
 # FCBB2019Spring
+Identify significant co-occurring or mutually exclusive mutated driver genes across cancer types
+Driver mutations are mutations within a gene that confers a selective growth advantages thus causing cancer. Knowing the co-occurence or mutually exclusive relationships between driver mutations can provide valuable information in studying the aberrant pathways in the formation of tumors. To test the mutually exclusive relationship, we utilized an existing R package tool called DISCOVER. However, currently there are no good tool to compute the cooccurrence between sample tests. As a result, we developed our own statistical method of permutation test for finding significant co-occurring pairs.
