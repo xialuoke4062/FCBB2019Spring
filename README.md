@@ -1,1 +1,4 @@
-# FCBB2019Spring
+# FCBB2019 Spring Project
+## Identify significant co-occurring or mutually exclusive mutated driver genes across cancer types  
+Driver mutations are mutations within a gene that confers a selective growth advantages thus causing cancer. Knowing the co-occurence or mutually exclusive relationships between driver mutations can provide valuable information in studying the aberrant pathways in the formation of tumors. To test the mutually exclusive relationship, we utilized an existing R package tool called DISCOVER. However, currently there are no good tool to compute the cooccurrence between sample tests. As a result, we developed our own statistical method of permutation test for finding significant co-occurring pairs.  
+Checkout the final poster / presentation [here](https://github.com/LuchaoQi/FCBB2019Spring/tree/master/Final_Compilation)
